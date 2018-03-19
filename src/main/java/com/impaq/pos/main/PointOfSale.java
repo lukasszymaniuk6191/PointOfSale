@@ -54,7 +54,7 @@ public class PointOfSale {
 
 
             System.out.println("add new client -'nc', exit aplication - 'exit'");
-            System.out.println("add new product - 'np', exit transaction 'exit'");
+            System.out.println("add new products to client - 'np', exit transaction 'exit'");
             String str = sc.next();
 
             if (str.equals("nc")) {

@@ -41,23 +41,22 @@ public class DemoApplicationTests {
     @Before
     public void init() {
         List<Product> productsList = new ArrayList<Product>();
-        productsList.add(new Product("111-111-111", "Mineral Water", "5$", 50));
-        productsList.add(new Product("222-222-222", "Coca-Cola", "2$", 20));
-        productsList.add(new Product("333-333-333", "Coffee", "3$", 15));
-        productsList.add(new Product("444-444-444", "Beer", "2$", 25));
-        productsList.add(new Product("555-555-555", "Orange juice", "4$", 0));
-        productsList.add(new Product("666-666-666", "Vodka", "20$", 10));
-        productsList.add(new Product("777-777-777", "Wine", "12$", 12));
+        productsList.add(new Product("111-111-111", "Mineral Water", "5.0$", 50));
+        productsList.add(new Product("222-222-222", "Coca-Cola", "2.0$", 20));
+        productsList.add(new Product("333-333-333", "Coffee", "3.0$", 15));
+        productsList.add(new Product("444-444-444", "Beer", "2.0$", 25));
+        productsList.add(new Product("555-555-555", "Orange juice", "4.0$", 0));
+        productsList.add(new Product("666-666-666", "Vodka", "20.0$", 10));
+        productsList.add(new Product("777-777-777", "Wine", "12.0$", 12));
 
-        //shopProductsRepositoryMock = Mockito.mock(ShopProductsRepositoryImpl.class);
         shopProductsRepository.saveAll(productsList);
 
         client = new Client();
-        client.addProduct(new Product("222-222-222", "Coca-Cola", "2$", 20));
-        client.addProduct(new Product("222-222-222", "Coca-Cola", "2$", 20));
-        client.addProduct(new Product("333-333-333", "Coffee", "3$", 15));
-        client.addProduct(new Product("444-444-444", "Beer", "2$", 25));
-        client.addProduct(new Product("777-777-777", "Wine", "12$", 12));
+        client.addProduct(new Product("222-222-222", "Coca-Cola", "2.0$", 20));
+        client.addProduct(new Product("222-222-222", "Coca-Cola", "2.0$", 20));
+        client.addProduct(new Product("333-333-333", "Coffee", "3.0$", 15));
+        client.addProduct(new Product("444-444-444", "Beer", "2.0$", 25));
+        client.addProduct(new Product("777-777-777", "Wine", "12.0$", 12));
 
     }
 
@@ -67,20 +66,20 @@ public class DemoApplicationTests {
 
         Product product = shopProductsRepository.getProductByBarCode("777-777-777");
         assertEquals("Wine", product.getName());
-        assertEquals("12$", product.getPrice());
+        assertEquals("12.0$", product.getPrice());
         assertEquals(12, product.getAmountOfProducts());
 
         List<Product> productList = shopProductsRepository.findAll();
         assertEquals(7, productList.size());
         assertTrue(productList.stream().filter(o -> o.equals(
-                new Product("111-111-111", "Mineral Water", "5$", 50))).findFirst().isPresent());
+                new Product("111-111-111", "Mineral Water", "5.0$", 50))).findFirst().isPresent());
         assertTrue(productList.stream().filter(o -> o.equals(
-                new Product("444-444-444", "Beer", "2$", 25))).findFirst().isPresent());
+                new Product("444-444-444", "Beer", "2.0$", 25))).findFirst().isPresent());
 
         shopProductsRepository.reduceTheNumberOfProducts("444-444-444");
 
         assertTrue(productList.stream().filter(o -> o.equals(
-                new Product("444-444-444", "Beer", "2$", 24))).findFirst().isPresent());
+                new Product("444-444-444", "Beer", "2.0$", 24))).findFirst().isPresent());
 
     }
 
@@ -88,17 +87,17 @@ public class DemoApplicationTests {
     public void testShopProductsService() {
         Product product = shopProductsService.getProductFromStore("777-777-777");
         assertEquals("Wine", product.getName());
-        assertEquals("12$", product.getPrice());
+        assertEquals("12.0$", product.getPrice());
         assertEquals(11, product.getAmountOfProducts());
 
         product = shopProductsService.getProductFromStore("777-777-777");
         assertEquals("Wine", product.getName());
-        assertEquals("12$", product.getPrice());
+        assertEquals("12.0$", product.getPrice());
         assertEquals(10, product.getAmountOfProducts());
 
         product = shopProductsService.getProductFromStore("777-777-777");
         assertEquals("Wine", product.getName());
-        assertEquals("12$", product.getPrice());
+        assertEquals("12.0$", product.getPrice());
         assertEquals(9, product.getAmountOfProducts());
 
         product = shopProductsService.getProductFromStore("222-222-223");
@@ -111,20 +110,20 @@ public class DemoApplicationTests {
         Receipt receipt = shopReceiptsService.generateReceipt(client);
         assertTrue(receipt.getPriceOfAllProducts().equals("21.0$"));
         assertTrue(receipt.getProductList().stream().filter(o -> o.equals(
-                new Product("444-444-444", "Beer", "2$", 1))).findFirst().isPresent());
+                new Product("444-444-444", "Beer", "2.0$", 1))).findFirst().isPresent());
         assertTrue(receipt.getProductList().stream().filter(o -> o.equals(
-                new Product("333-333-333", "Coffee", "3$", 1))).findFirst().isPresent());
+                new Product("333-333-333", "Coffee", "3.0$", 1))).findFirst().isPresent());
         assertTrue(receipt.getProductList().stream().filter(o -> o.equals(
-                new Product("222-222-222", "Coca-Cola", "2$", 2))).findFirst().isPresent());
+                new Product("222-222-222", "Coca-Cola", "2.0$", 2))).findFirst().isPresent());
         assertTrue(receipt.getProductList().stream().filter(o -> o.equals(
-                new Product("777-777-777", "Wine", "12$", 1))).findFirst().isPresent());
+                new Product("777-777-777", "Wine", "12.0$", 1))).findFirst().isPresent());
 
 
         String printReceipt = shopReceiptsService.printReceipt();
-        assertTrue(printReceipt.contains("Coca-Cola x 2  -  2$"));
-        assertTrue(printReceipt.contains("Coffee x 1  -  3$"));
-        assertTrue(printReceipt.contains("Beer x 1  -  2$"));
-        assertTrue(printReceipt.contains("Wine x 1  -  12$"));
+        assertTrue(printReceipt.contains("Coca-Cola x 2  -  2.0$"));
+        assertTrue(printReceipt.contains("Coffee x 1  -  3.0$"));
+        assertTrue(printReceipt.contains("Beer x 1  -  2.0$"));
+        assertTrue(printReceipt.contains("Wine x 1  -  12.0$"));
         assertTrue(printReceipt.contains("sum: 21.0$"));
 
 
@@ -137,11 +136,11 @@ public class DemoApplicationTests {
 
         String lcdMessage = pointOfSale.scanProducts(client, "111-111-111");
         assertTrue(lcdMessage.contains("*** LCD ***"));
-        assertTrue(lcdMessage.contains("name: Mineral Water,   price: 5$"));
+        assertTrue(lcdMessage.contains("name: Mineral Water,   price: 5.0$"));
 
         lcdMessage = pointOfSale.scanProducts(client, "777-777-777");
         assertTrue(lcdMessage.contains("*** LCD ***"));
-        assertTrue(lcdMessage.contains("name: Wine,   price: 12$"));
+        assertTrue(lcdMessage.contains("name: Wine,   price: 12.0$"));
 
         lcdMessage = pointOfSale.scanProducts(client, "777-777-771");
         assertTrue(lcdMessage.contains("*** LCD ***"));
@@ -164,8 +163,8 @@ public class DemoApplicationTests {
 
         String strReceipt = exitTransactionObjects.get(1);
         assertTrue(strReceipt.contains("*** Printer ***"));
-        assertTrue(strReceipt.contains("Mineral Water x 1  -  5$"));
-        assertTrue(strReceipt.contains("Wine x 1  -  12$"));
+        assertTrue(strReceipt.contains("Mineral Water x 1  -  5.0$"));
+        assertTrue(strReceipt.contains("Wine x 1  -  12.0$"));
         assertTrue(strReceipt.contains("sum: 17.0$"));
 
         pointOfSale.scanProducts(client, "666-666-666");
@@ -179,9 +178,9 @@ public class DemoApplicationTests {
 
         strReceipt = exitTransactionObjects.get(1);
         assertTrue(strReceipt.contains("*** Printer ***"));
-        assertTrue(strReceipt.contains("Mineral Water x 1  -  5$"));
-        assertTrue(strReceipt.contains("Wine x 2  -  12$"));
-        assertTrue(strReceipt.contains("Vodka x 1  -  20$"));
+        assertTrue(strReceipt.contains("Mineral Water x 1  -  5.0$"));
+        assertTrue(strReceipt.contains("Wine x 2  -  12.0$"));
+        assertTrue(strReceipt.contains("Vodka x 1  -  20.0$"));
         assertTrue(strReceipt.contains("sum: 49.0$"));
 
     }
